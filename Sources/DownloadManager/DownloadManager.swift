@@ -1,11 +1,3 @@
-//
-//  DownloadManager.swift
-//
-//  Created by Gabriel Nica on 06/08/2019.
-//  Copyright © 2019 Shaped by Iris. All rights reserved.
-//
-//  swiftlint:disable line_length
-
 import Foundation
 import UserNotifications
 
@@ -52,6 +44,7 @@ public struct DownloadManagerConfig {
     public var usesNotificationCenter = false
     public var showsLocalNotifications = false
     public var logVerbosity: LogVerbosity = .none
+    public var userAgent: String? // P8054
 }
 
 public final class DownloadManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
@@ -100,7 +93,10 @@ public final class DownloadManager: NSObject, URLSessionDelegate, URLSessionDown
             return
         }
 
-        let urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: url)
+        if let userAgent = configuration.userAgent { // P6bef
+            urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        }
         let downloadTask = session.downloadTask(with: urlRequest)
 
         let downloadItem = DownloadItem(remoteURL: url, destinationURL: destinationURL,

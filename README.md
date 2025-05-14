@@ -66,6 +66,7 @@ public struct DownloadManagerConfig {
     public var usesNotificationCenter = false
     public var showsLocalNotifications = false
     public var logVerbosity: LogVerbosity = .none
+    public var userAgent: String? // P8054
 }
 ```
 
@@ -79,6 +80,7 @@ DownloadManager.shared.configuration = DownloadManagerConfiguration()
 `usesNotificationCenter` | if true, the Download Manager will also send notifications via NotificationCenter for download events
 `showsLocalNotifications` | currently a debugging feature and needs Info.plist support to show a local notification for download events. Useful for background downloads. 
 `logVerbosity` | by default the manager doesn't output any logs to console as they can be quite verbose. To change this use one of `.none`, `debug` | all messages including progress, `error` - only errors are logged to console
+`userAgent` | a string to set the User-Agent header for download requests
 
 ## Notifications
 
